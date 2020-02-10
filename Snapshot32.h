@@ -1,21 +1,7 @@
-//Copy Pasta by UF6
-
 #pragma once
-#include <vector>
-#include <windows.h>
-#include <TlHelp32.h>
-#include <string>
+#include "UF6.h"
 
-/*
-* How to use:
-*	1. Create a Snapshot32 and SnapshotUtility32 object 
-*	(pass the Snapshot32 object as an argument in the Utility. After that, you'll be able to use the utility)
-*	2. take a snapshot, depending on your needs (takeSnapshot(...), the enum FlagType displays all the options)
-*	3. if you're aiming at your own process, just use takeSnapshot(FlagType). If else, use the overloaded function.
-*	4. Call the get-function, according to your snapshot
-*
-* DISCLAIMER - 32/64 BIT PROCESS CHANGES BEHAVIOUR
-*/
+using namespace UF6;
 
 typedef PROCESSENTRY32	 Process32;
 typedef MODULEENTRY32	 Module32;
@@ -27,15 +13,17 @@ typedef std::vector<MODULEENTRY32>		Modules32;
 typedef std::vector<tagTHREADENTRY32>	Threads32;
 typedef std::vector<tagHEAPLIST32>		Heaplists32;
 
-enum FlagType
-{
-	PROCESS = TH32CS_SNAPPROCESS, MODULE = TH32CS_SNAPMODULE,
-	THREAD = TH32CS_SNAPTHREAD, HEAPLIST = TH32CS_SNAPHEAPLIST
-};
 
 class Snapshot32
 {
 public:
+	enum FlagType
+	{
+		PROCESS = TH32CS_SNAPPROCESS, MODULE = TH32CS_SNAPMODULE,
+		THREAD = TH32CS_SNAPTHREAD, HEAPLIST = TH32CS_SNAPHEAPLIST
+	};
+
+
 	Processes32	GetProcesses32(); //ignores target process
 	Modules32	GetModules32();	  //includes target process (th32ProcessID)
 	Threads32	GetThreads32();	  //ignores target process
@@ -66,13 +54,13 @@ public:
 	void	takeSnapshot(int flags);
 	void	takeSnapshot(int flags, DWORD th32ProcessID);
 
-	std::vector<DWORD>		 GetAllProcessIDs();
-	std::vector<std::string> GetAllProcessNames();
+	Processes32 GetAllProcesses32();
+	Processes32 GetProcesses32ByName(string name);
+	Process32	GetProcess32ByID(DWORD identifier);
 
-	std::string			GetProcessNameByID(DWORD identifier);
-	std::vector<DWORD>  GetAllProcessIDsByName(std::string name);
-
-	std::vector<std::string> GetModuleNames();
+	Modules32 GetAllModules32();
+	Modules32 GetModules32ByName(string name);
+	Module32 GetModule32ByID(DWORD identifier);
 
 private:
 	Snapshot32& snapshot;

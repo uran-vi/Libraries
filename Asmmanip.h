@@ -1,20 +1,8 @@
-//Copy Pasta by UF6
-
 #pragma once
-#define _CRT_SECURE_NO_WARNINGS
-#include <windows.h>
-#include <string>
-#include <memory>
+#include <UF6.h>
 #include "BytePattern.h"
 
-/*
-* How to use (nop example):
-*	1. Create an AsmNop object (parameter address indicates, where you manipulation takes place)
-*	2. Determine how many nops you want to create via "SetNopAmount(size_t nops)"
-*	3. use the virtual function "manipulate()" in order to write to memory
-*
-*	DISCLAIMER - "BytePattern.h" exists in UF6 Github as a repository
-*/
+using namespace UF6;
 
 class Asmmanip
 {

@@ -1,10 +1,6 @@
-//Copy Pasta by UF6
-
 #include "DynamicConsole.h"
 
-//Information regarding this library are in the header
-
-void Console::open()
+void DynamicConsole::open()
 {
 	if (!this->IsOpen())
 	{	
@@ -17,7 +13,7 @@ void Console::open()
 	}
 }
 
-void Console::close()
+void DynamicConsole::close()
 {
 	if (this->IsOpen())
 	{
@@ -26,29 +22,29 @@ void Console::close()
 	}
 }
 
-void Console::SetTitle(std::string title)
+void DynamicConsole::SetTitle(string title)
 {
 	this->title = title;
 	SetConsoleTitle(title.c_str());
 }
 
-std::string Console::GetTitle()
+string DynamicConsole::GetTitle()
 {
 	return title;
 }
 
-bool Console::IsOpen()
+bool DynamicConsole::IsOpen()
 {
 	return pConsoleController != nullptr;
 }
 
-void Console::allowConsoleAccess()
+void DynamicConsole::allowConsoleAccess()
 {
 	freopen_s(&pConsoleController, "CONOUT$", "w", stdout);
 	EnableMenuItem(GetSystemMenu(GetConsoleWindow(), FALSE), SC_CLOSE, MF_DISABLED);
 }
 
-void Console::forbidConsoleAccess()
+void DynamicConsole::forbidConsoleAccess()
 {
 	fclose(pConsoleController);
 	pConsoleController = nullptr;

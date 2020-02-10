@@ -1,8 +1,4 @@
-//Copy Pasta by UF6
-
 #include "Snapshot32.h"
-
-//Information regarding this library are in the header
 
 Processes32 Snapshot32::GetProcesses32()
 {
@@ -115,64 +111,58 @@ void SnapshotUtility32::takeSnapshot(int flags, DWORD processID)
 	snapshot.takeSnapshot(flags, processID);
 }
 
-std::vector<DWORD> SnapshotUtility32::GetAllProcessIDs()
+Processes32 SnapshotUtility32::GetAllProcesses32()
 {
-	std::vector<DWORD> processIDs;
-	Processes32 ps32 = snapshot.GetProcesses32();
-
-	for (Process32 p32 : ps32)
-		processIDs.push_back(p32.th32ProcessID);
-	
-	return processIDs;
+	return snapshot.GetProcesses32();
 }
 
-std::vector<std::string> SnapshotUtility32::GetAllProcessNames()
+Processes32 SnapshotUtility32::GetProcesses32ByName(string name)
 {
-	std::vector<std::string> processNames;
+	Processes32 result;
 	Processes32 ps32 = snapshot.GetProcesses32();
-
 	for (Process32 p32 : ps32)
-		processNames.push_back(p32.szExeFile);
-
-	return processNames;
+	{
+		if (p32.szExeFile == name)
+			result.push_back(p32);
+	}
+	return result;
 }
 
-std::string SnapshotUtility32::GetProcessNameByID(DWORD identifier)
+Process32 SnapshotUtility32::GetProcess32ByID(DWORD identifier)
 {
-	std::string processName;
 	Processes32 ps32 = snapshot.GetProcesses32();
-
 	for (Process32 p32 : ps32)
 	{
 		if (p32.th32ProcessID == identifier)
-			processName = p32.szExeFile;
+			return p32;
 	}
-
-	return processName;
+	return Process32();
 }
 
-std::vector<DWORD> SnapshotUtility32::GetAllProcessIDsByName(std::string name)
+Modules32 SnapshotUtility32::GetAllModules32()
 {
-	std::vector<DWORD> processIDs;
-	Processes32 ps32 = snapshot.GetProcesses32();
-
-	for (Process32 p32 : ps32)
-	{
-		if(p32.szExeFile == name)
-			processIDs.push_back(p32.th32ProcessID);
-	}
-
-	return processIDs;
+	return snapshot.GetModules32();
 }
 
-std::vector<std::string> SnapshotUtility32::GetModuleNames()
+Modules32 SnapshotUtility32::GetModules32ByName(string name)
 {
-	std::vector<std::string> moduleNames;
+	Modules32 result;
 	Modules32 ms32 = snapshot.GetModules32();
-
 	for (Module32 m32 : ms32)
-		moduleNames.push_back(m32.szModule);
-
-	return moduleNames;
+	{
+		if (m32.szModule == name)
+			result.push_back(m32);
+	}
+	return result;
 }
 
+Module32 SnapshotUtility32::GetModule32ByID(DWORD identifier)
+{
+	Modules32 ms32 = snapshot.GetModules32();
+	for (Module32 m32 : ms32)
+	{
+		if (m32.th32ModuleID == identifier)
+			return m32;
+	}
+	return Module32();
+}
